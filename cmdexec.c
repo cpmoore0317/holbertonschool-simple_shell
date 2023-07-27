@@ -11,6 +11,6 @@ void cmdexec (char **argv)
 		if (execve(command, argv, NULL) == -1)
 		{
 			perror("Error:");
-		};
+		}
 	}
 }

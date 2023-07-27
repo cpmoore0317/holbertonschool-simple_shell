@@ -26,7 +26,7 @@ int main(int ac, char **argv, char **env)
 			return (-1);
 		}
 		/* Allocating space for a copy of the user input */
-		user_input_copy = malloc(sizeof(char) * nchars_read);
+		user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
 		strcpy(user_input_copy, user_input);
 		/* Split the string into an array of words */
 		token = strtok(user_input, " ");
@@ -44,7 +44,7 @@ int main(int ac, char **argv, char **env)
 
 		for (i = 0; token != NULL; i++)
 		{
-			argv[i] = malloc(sizeof(char) * strlen(token));
+			argv[i] = malloc(sizeof(char) * (strlen(token) + 1));
 			strcpy(argv[i], token);
 
 			token = strtok(NULL, " ");
