@@ -18,18 +18,23 @@ int main(int ac, char **argv, char **env)
 	while (1) /* Creating a loop for the shell's prompt */
 	{
 		printf("%s", PROMPT);
+
 		nchars_read = getline(&user_input, &bytes_read, stdin);
+
 		/* Checking if the getline failed or user input is CTRL-D */
 		if (nchars_read == -1)
 		{
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
+
 		/* Allocating space for a copy of the user input */
 		user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
 		strcpy(user_input_copy, user_input);
+
 		/* Split the string into an array of words */
 		token = strtok(user_input, " ");
+
 		/* Calculating number of tokens */
 		while (token != NULL)
 		{
@@ -37,8 +42,10 @@ int main(int ac, char **argv, char **env)
 			token = strtok(NULL, " ");
 		}
 		num_tokens++;
+
 		/* Allocate space to hold array of words */
 		argv = malloc(sizeof(char *) * num_tokens);
+
 		/* Storing each token in the argv array */
 		token = strtok(user_input_copy, " ");
 
@@ -50,6 +57,7 @@ int main(int ac, char **argv, char **env)
 			token = strtok(NULL, " ");
 		}
 		argv[i] = NULL;
+
 		/* Execute the command from the first argument */
 		cmdexec(argv);
 
