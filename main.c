@@ -52,10 +52,15 @@ int main(int ac, char **argv, char **env)
 		argv[i] = NULL;
 		/* Execute the command from the first argument */
 		cmdexec(argv);
+
+		for (i = 0; i < num_tokens - 1; i++)
+		{
+			free(argv[i]);
+		}
+		free(argv);
+		free(user_input_copy);
+		free(user_input);
 	}
-	/* Free up allocated memory */
-	free(user_input);
-	free(user_input_copy);
 
 	return (0);
 }
