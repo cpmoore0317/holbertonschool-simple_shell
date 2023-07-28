@@ -59,7 +59,7 @@ int main(int ac, char **argv, char **env)
 		argv[i] = NULL;
 
 		/* Execute the command from the first argument */
-		cmdexec(argv);
+		cmd_exec(argv);
 
 		for (i = 0; i < num_tokens - 1; i++)
 		{

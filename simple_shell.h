@@ -24,5 +24,5 @@
 /* Structures */
 
 /* Prototypes */
-void cmdexec(char **argv);
+void cmd_exec(char **argv);
 #endif

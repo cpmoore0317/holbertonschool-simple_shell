@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-void cmdexec (char **argv)
+void cmd_exec(char **argv)
 {
 	char *command = NULL;
 
