@@ -2,72 +2,48 @@
 
 /**
  * main - Simple Shell Program
+ * @ac: Number of args passed to main
+ * @argv: Args passed to main stored as strings
+ * @env: Environ variable
  *
  * Return: 0 on Success, -1 on Failure
  */
 
 int main(int ac, char **argv, char **env)
 {
-	char *user_input = NULL, *user_input_copy = NULL, *token;
-	size_t bytes_read = 0;
-	ssize_t nchars_read = 0;
-	int num_tokens = 0, i;
+	char **tokenized_input = NULL;
+	int i;
 
-	(void)ac; (void)env;
+	(void)ac;
+	(void)env;
 
 	while (1) /* Creating a loop for the shell's prompt */
 	{
 		printf("%s", PROMPT);
-
-		nchars_read = getline(&user_input, &bytes_read, stdin);
-
+		tokenized_input = token_input();
 		/* Checking if the getline failed or user input is CTRL-D */
-		if (nchars_read == -1)
+		if (tokenized_input == NULL)
 		{
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
+		argv = malloc(sizeof(tokenized_input));
 
-		/* Allocating space for a copy of the user input */
-		user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
-		strcpy(user_input_copy, user_input);
-
-		/* Split the string into an array of words */
-		token = strtok(user_input, " ");
-
-		/* Calculating number of tokens */
-		while (token != NULL)
+		for (i = 0; tokenized_input[i] != NULL; i++)
 		{
-			num_tokens++;
-			token = strtok(NULL, " ");
-		}
-		num_tokens++;
-
-		/* Allocate space to hold array of words */
-		argv = malloc(sizeof(char *) * num_tokens);
-
-		/* Storing each token in the argv array */
-		token = strtok(user_input_copy, " ");
-
-		for (i = 0; token != NULL; i++)
-		{
-			argv[i] = malloc(sizeof(char) * (strlen(token) + 1));
-			strcpy(argv[i], token);
-
-			token = strtok(NULL, " ");
+			argv[i] = malloc(sizeof(char) * (strlen(tokenized_input[i]) + 1));
+			strcpy(argv[i], tokenized_input[i]);
 		}
 		argv[i] = NULL;
+		/* Execute the command from the first argument cmd_exec(argv); */
+		for (i = 0; argv[i] != NULL; i++)
+			printf("argv[%d]: %s\n", i, argv[i]);
 
-		/* Execute the command from the first argument */
-		cmd_exec(argv);
-
-		for (i = 0; i < num_tokens - 1; i++)
+		for (i = 0; tokenized_input[i] != NULL; i++)
 		{
 			free(argv[i]);
+			free(tokenized_input[i]);
 		}
-		free(argv);
-		free(user_input_copy);
-		free(user_input);
 	}
 
 	return (0);
