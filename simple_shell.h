@@ -25,4 +25,5 @@
 
 /* Prototypes */
 void cmd_exec(char **argv);
+char **token_input(void);
 #endif
