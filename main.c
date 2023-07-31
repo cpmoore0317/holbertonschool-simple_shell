@@ -15,6 +15,7 @@ int main(int ac, char **argv, char **env)
 	int i;
 
 	(void)ac;
+	(void)argv;
 	(void)env;
 
 	while (1) /* Creating a loop for the shell's prompt */
@@ -27,24 +28,18 @@ int main(int ac, char **argv, char **env)
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
-		argv = malloc(sizeof(tokenized_input));
-
-		for (i = 0; tokenized_input[i] != NULL; i++)
-		{
-			argv[i] = malloc(sizeof(char) * (strlen(tokenized_input[i]) + 1));
-			strcpy(argv[i], tokenized_input[i]);
-		}
-		argv[i] = NULL;
 		/* Execute the command from the first argument cmd_exec(argv); */
-		for (i = 0; argv[i] != NULL; i++)
-			printf("argv[%d]: %s\n", i, argv[i]);
+		for (i = 0; tokenized_input[i] != NULL; i++)
+			printf("tokenized_input[%d]: %s\n", i, tokenized_input[i]);
 
 		for (i = 0; tokenized_input[i] != NULL; i++)
 		{
-			free(argv[i]);
 			free(tokenized_input[i]);
 		}
+		free(tokenized_input[i]);
+		free(tokenized_input);
 	}
+	free(tokenized_input);
 
 	return (0);
 }
