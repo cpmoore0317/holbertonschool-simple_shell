@@ -3,6 +3,7 @@
 /**
  * **token_input - Function that gets user input and tokenizes it
  *
+ * 
  * Return: Pointer to array of strings containing tokenized user input
  */
 
@@ -17,7 +18,10 @@ char **token_input(void)
 	nchars_read = getline(&user_input, &bytes_read, stdin);
 	/* Checking if the getline failed or user input is CTRL-D */
 	if (nchars_read == -1)
+	{
+		free(user_input);
 		return (NULL);
+	}
 	/* Allocating space for a copy of the user input */
 	user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
 	if (user_input_copy == NULL)

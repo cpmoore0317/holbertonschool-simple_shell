@@ -25,21 +25,21 @@ int main(int ac, char **argv, char **env)
 		/* Checking if the getline failed or user input is CTRL-D */
 		if (tokenized_input == NULL)
 		{
+			free(tokenized_input);
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
-		/* Execute the command from the first argument cmd_exec(argv); */
-		for (i = 0; tokenized_input[i] != NULL; i++)
-			printf("tokenized_input[%d]: %s\n", i, tokenized_input[i]);
+		/* Execute the command from the first argument*/
+		cmd_exec(tokenized_input);
+
+		/*for (i = 0; tokenized_input[i] != NULL; i++)
+			printf("tokenized_input[%d]: %s\n", i, tokenized_input[i]);*/
 
 		for (i = 0; tokenized_input[i] != NULL; i++)
-		{
 			free(tokenized_input[i]);
-		}
-		free(tokenized_input[i]);
 		free(tokenized_input);
+		tokenized_input = NULL;
 	}
-	free(tokenized_input);
 
 	return (0);
 }
