@@ -53,3 +53,28 @@ char **token_input(void)
 	free(user_input_copy);
 	return (tokenized_string);
 }
+
+void init_argv(char **argv, char **tokenized_input)
+{
+	int i, num_tokens = 0;
+
+	for (i = 0; tokenized_input[i] != NULL; i++)
+		num_tokens++;
+	num_tokens++;
+
+	argv = malloc(sizeof(char *) * num_tokens);
+
+	for (i = 0; tokenized_input[i] != NULL; i++)
+	{
+		argv[i] = malloc(sizeof(char) * (strlen(tokenized_input[i]) + 1));
+		strcpy(argv[i], tokenized_input[i]);
+	}
+	argv[i] = NULL;
+
+	for (i = 0; argv[i] != NULL; i++)
+		printf("argv[%d]:%s\n", i, argv[i]);
+
+	for (i = 0; tokenized_input != NULL; i++)
+		free(tokenized_input[i]);
+	free(tokenized_input);
+}

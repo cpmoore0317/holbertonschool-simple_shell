@@ -1,14 +1,14 @@
 #include "simple_shell.h"
 
-void cmd_exec(char **tokenized_input)
+void cmd_exec(char **argv)
 {
 	char *command = NULL;
 
-	if (tokenized_input)
+	if (argv)
 	{
-		command = tokenized_input[0];
+		command = argv[0];
 
-		if (execve(command, tokenized_input, NULL) == -1)
+		if (execve(command, argv, NULL) == -1)
 		{
 			perror("Error:");
 		}

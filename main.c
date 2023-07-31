@@ -15,7 +15,6 @@ int main(int ac, char **argv, char **env)
 	int i;
 
 	(void)ac;
-	(void)argv;
 	(void)env;
 
 	while (1) /* Creating a loop for the shell's prompt */
@@ -29,15 +28,16 @@ int main(int ac, char **argv, char **env)
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
+		init_argv(argv, tokenized_input);
 		/* Execute the command from the first argument*/
-		cmd_exec(tokenized_input);
+		/*cmd_exec(argv);*/
 
-		/*for (i = 0; tokenized_input[i] != NULL; i++)
-			printf("tokenized_input[%d]: %s\n", i, tokenized_input[i]);*/
+		/*for (i = 0; argv[i] != NULL; i++)
+			printf("argv[%d]: %s\n", i, argv[i]);*/
 
-		for (i = 0; tokenized_input[i] != NULL; i++)
-			free(tokenized_input[i]);
-		free(tokenized_input);
+		for (i = 0; argv[i] != NULL; i++)
+			free(argv[i]);
+		free(argv);
 		tokenized_input = NULL;
 	}
 
