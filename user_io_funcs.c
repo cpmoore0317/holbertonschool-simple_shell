@@ -16,37 +16,37 @@ char **token_input(void)
 	int num_tokens = 0, i;
 
 	nchars_read = getline(&user_input, &bytes_read, stdin);
-	/* Checking if the getline failed or user input is CTRL-D */
+
 	if (nchars_read == -1)
 	{
 		free(user_input);
 		return (NULL);
 	}
-	/* Allocating space for a copy of the user input */
+
 	user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
 	if (user_input_copy == NULL)
 		return (NULL);
 	strcpy(user_input_copy, user_input);
-	/* Split the string into an array of words */
-	token = strtok(user_input, " \n");
-	/* Calculating number of tokens */
+
+	token = strtok(user_input, DELIM);
+
 	while (token != NULL)
 	{
 		num_tokens++;
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, DELIM);
 	}
 	num_tokens++;
-	/* Allocating memory for array of strings to store parsed input */
+
 	tokenized_string = malloc(sizeof(char *) * num_tokens);
 	if (tokenized_string == NULL)
 		return (NULL);
-	token = strtok(user_input_copy, " \n");
-	/* Loop to malloc each index of tokenized_string, and copy each token */
+	token = strtok(user_input_copy, DELIM);
+
 	for (i = 0; token != NULL; i++)
 	{
 		tokenized_string[i] = malloc(sizeof(char) * (strlen(token) + 1));
 		strcpy(tokenized_string[i], token);
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, DELIM);
 	}
 	tokenized_string[i] = NULL;
 	free(user_input);

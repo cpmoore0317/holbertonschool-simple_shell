@@ -20,7 +20,7 @@
 
 /* Macros */
 #define PROMPT "(BBASH)$ "
-
+#define DELIM " \n\r\t"
 /* Structures */
 
 /* Prototypes */
