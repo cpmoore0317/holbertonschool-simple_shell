@@ -37,7 +37,7 @@ char *get_location(char *command)
 	int command_length = 0, directory_length = 0;
 	struct stat buffer;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 
 	if (path)
 	{
@@ -72,5 +72,31 @@ char *get_location(char *command)
 		}
 		return (NULL);
 	}
+	return (NULL);
+}
+
+/**
+ * *_getenv - Function that returns a pointer to a string in envp
+ * @name: Key to find in envp
+ *
+ * Return: Pointer to the value matched with key
+ */
+
+char *_getenv(const char *name)
+{
+	extern char **environ;
+	char **env;
+	size_t name_len;
+
+	name_len = strlen(name);
+
+	for (env = environ; *env != NULL; env++)
+	{
+		if (strncmp(*env, name, name_len) == 0 && (*env)[name_len] == '=')
+		{
+			return (*env + name_len + 1);
+		}
+	}
+	
 	return (NULL);
 }
