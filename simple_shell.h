@@ -24,7 +24,7 @@
 /* Structures */
 
 /* Prototypes */
-void cmd_exec(char **argv);
+void cmd_exec(char **tokenized_input);
 char **token_input(void);
-/*void init_argv(char **argv, char **tokenized_input);*/
+
 #endif
