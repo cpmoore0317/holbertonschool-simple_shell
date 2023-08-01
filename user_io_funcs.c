@@ -3,7 +3,7 @@
 /**
  * **token_input - Function that gets user input and tokenizes it
  *
- * 
+ *
  * Return: Pointer to array of strings containing tokenized user input
  */
 
@@ -16,7 +16,6 @@ char **token_input(void)
 	int num_tokens = 0, i;
 
 	nchars_read = getline(&user_input, &bytes_read, stdin);
-
 	if (nchars_read == -1)
 	{
 		free(user_input);
@@ -29,7 +28,6 @@ char **token_input(void)
 	strcpy(user_input_copy, user_input);
 
 	token = strtok(user_input, DELIM);
-
 	while (token != NULL)
 	{
 		num_tokens++;
@@ -41,7 +39,6 @@ char **token_input(void)
 	if (tokenized_string == NULL)
 		return (NULL);
 	token = strtok(user_input_copy, DELIM);
-
 	for (i = 0; token != NULL; i++)
 	{
 		tokenized_string[i] = malloc(sizeof(char) * (strlen(token) + 1));

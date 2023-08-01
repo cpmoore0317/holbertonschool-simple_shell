@@ -26,5 +26,6 @@
 /* Prototypes */
 void cmd_exec(char **tokenized_input);
 char **token_input(void);
+char *get_location(char *command);
 
 #endif

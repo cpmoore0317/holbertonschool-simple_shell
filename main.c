@@ -21,16 +21,16 @@ int main(int ac, char **argv, char **env)
 	while (1)
 	{
 		printf("%s", PROMPT);
-		
+
 		tokenized_input = token_input();
-		
+
 		if (tokenized_input == NULL)
 		{
 			free(tokenized_input);
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
-		
+
 		cmd_exec(tokenized_input);
 
 		for (i = 0; tokenized_input[i] != NULL; i++)
