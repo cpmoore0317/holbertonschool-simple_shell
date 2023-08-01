@@ -16,28 +16,43 @@ int main(int ac, char **argv, char **env)
 
 	(void)ac;
 	(void)env;
+	(void)argv;
 
 	while (1) /* Creating a loop for the shell's prompt */
 	{
 		printf("%s", PROMPT);
+		
 		tokenized_input = token_input();
+		
 		/* Checking if the getline failed or user input is CTRL-D */
+		
 		if (tokenized_input == NULL)
 		{
 			free(tokenized_input);
 			printf("Exiting Shell...\n");
 			return (-1);
 		}
-		init_argv(argv, tokenized_input);
+		
+		/*init_argv(argv, tokenized_input);*/
+		
 		/* Execute the command from the first argument*/
-		/*cmd_exec(argv);*/
+		
+		/*cmd_exec(tokenized_input);*/
 
 		/*for (i = 0; argv[i] != NULL; i++)
 			printf("argv[%d]: %s\n", i, argv[i]);*/
 
-		for (i = 0; argv[i] != NULL; i++)
+		for (i = 0; tokenized_input[i] != NULL; i++)
+		      printf("tokenized_input[%d]: %s\n"
+
+		/*for (i = 0; argv[i] != NULL; i++)
 			free(argv[i]);
-		free(argv);
+		free(argv);*/
+
+		for (i = 0; tokenized_input[i] != NULL; i++)
+			free(tokenized_input[i]);
+		free(tokenized_input);
+
 		tokenized_input = NULL;
 	}
 

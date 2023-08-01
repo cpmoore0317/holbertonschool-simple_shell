@@ -54,7 +54,7 @@ char **token_input(void)
 	return (tokenized_string);
 }
 
-void init_argv(char **argv, char **tokenized_input)
+/*void init_argv(char **argv, char **tokenized_input)
 {
 	int i, num_tokens = 0;
 
@@ -77,4 +77,4 @@ void init_argv(char **argv, char **tokenized_input)
 	for (i = 0; tokenized_input != NULL; i++)
 		free(tokenized_input[i]);
 	free(tokenized_input);
-}
+}*/
