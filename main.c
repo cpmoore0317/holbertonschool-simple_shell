@@ -43,7 +43,7 @@ int main(int ac, char **argv, char **env)
 			printf("argv[%d]: %s\n", i, argv[i]);*/
 
 		for (i = 0; tokenized_input[i] != NULL; i++)
-		      printf("tokenized_input[%d]: %s\n"
+		      printf("tokenized_input[%d]: %s\n", i, tokenized_input[i]);
 
 		/*for (i = 0; argv[i] != NULL; i++)
 			free(argv[i]);
