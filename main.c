@@ -32,7 +32,6 @@ int main(int ac, char **argv, char **env)
 		if (tokenized_input == NULL)
 		{
 			free(tokenized_input);
-			printf("Exiting Shell...\n");
 			return (-1);
 		}
 
