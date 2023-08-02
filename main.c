@@ -16,8 +16,8 @@ int main(int ac, char **argv, char **env)
 	int i, interactive;
 
 	(void)ac;
-	(void)env;
 	(void)argv;
+	(void)env;
 
 	while (1)
 	{
