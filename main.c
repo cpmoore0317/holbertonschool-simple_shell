@@ -12,7 +12,8 @@
 int main(int ac, char **argv, char **env)
 {
 	char **tokenized_input = NULL;
-	int i;
+
+	int i, interactive;
 
 	(void)ac;
 	(void)argv;
@@ -20,7 +21,11 @@ int main(int ac, char **argv, char **env)
 
 	while (1)
 	{
-		printf("%s", PROMPT);
+		interactive = isatty(STDIN_FILENO);
+		if (interactive)
+		{
+			printf("%s", PROMPT);
+		}
 
 		tokenized_input = token_input();
 
