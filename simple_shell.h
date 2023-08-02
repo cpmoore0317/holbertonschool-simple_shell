@@ -28,5 +28,6 @@ void cmd_exec(char **tokenized_input);
 char **token_input(void);
 char *get_location(char *command);
 char *_getenv(const char *name);
+void printenv(void);
 
 #endif
