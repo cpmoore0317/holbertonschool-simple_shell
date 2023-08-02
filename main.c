@@ -32,7 +32,7 @@ int main(int ac, char **argv, char **env)
 		if (tokenized_input == NULL)
 		{
 			free(tokenized_input);
-			return (-1);
+			return (255);
 		}
 
 		cmd_exec(tokenized_input);
