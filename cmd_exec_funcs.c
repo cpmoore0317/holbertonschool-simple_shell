@@ -10,16 +10,37 @@
 void cmd_exec(char **tokenized_input)
 {
 	char *command = NULL, *actual_command = NULL;
+	pid_t child_pid;
+	int status;
 
 	if (tokenized_input)
 	{
 		command = tokenized_input[0];
 
+		/*if (strcmp(command, "exit") == 0)
+			run exit*/
+
 		actual_command = get_location(command);
 
-		if (execve(actual_command, tokenized_input, NULL) == -1)
+		child_pid = fork();
+
+		if (child_pid == -1)
 		{
-			perror("Error:");
+			perror("fork");
+		}
+		if (child_pid == 0)
+		{
+			if (execve(actual_command, tokenized_input, NULL) == -1)
+			{
+				free(actual_command);
+				perror("Error:");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			waitpid(child_pid, &status, 0);
+			free(actual_command);
 		}
 	}
 }
@@ -76,8 +97,7 @@ char *get_location(char *command)
 }
 
 /**
- * *_getenv - Function that returns a pointer to a string in envp
- * @name: Key to find in envp
+ * @name: key to find in envp
  *
  * Return: Pointer to the value matched with key
  */
@@ -97,6 +117,5 @@ char *_getenv(const char *name)
 			return (*env + name_len + 1);
 		}
 	}
-	
 	return (NULL);
 }
