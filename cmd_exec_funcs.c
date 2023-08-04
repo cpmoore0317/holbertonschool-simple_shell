@@ -51,7 +51,7 @@ void cmd_exec(char **tokenized_input)
 			{
 				free(actual_command);
 				perror("Error:");
-				exit(EXIT_FAILURE);
+				exit(EXIT_SUCCESS);
 			}
 		}
 		else
