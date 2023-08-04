@@ -13,14 +13,18 @@ void cmd_exec(char **tokenized_input)
 	pid_t child_pid;
 	int status;
 
+	printf("passed tokenized input to cmd_exec");
+
 	if (tokenized_input)
 	{
+		printf("tokenized_input exists in cmd_exec\n");
 		command = tokenized_input[0];
 
 		if (strcmp(command, "exit") == 0)
 		{
 			free(tokenized_input);
 			free(command);
+			printf("free tokenized_input and command if command = exit");
 			exit(EXIT_SUCCESS);
 		}
 
@@ -35,6 +39,7 @@ void cmd_exec(char **tokenized_input)
 		if (access(actual_command, X_OK) != 0)
 		{
 			free(actual_command);
+			printf("free actual_command after access failure");
 			perror("Error: The file cannot be executed");
 			return;
 		}
@@ -49,7 +54,8 @@ void cmd_exec(char **tokenized_input)
 		{
 			if (execve(actual_command, tokenized_input, NULL) == -1)
 			{
-				free(actual_command);
+				/*free(actual_command);*/
+				printf("Fail here?\n");
 				perror("Error:");
 				exit(EXIT_FAILURE);
 			}
@@ -57,7 +63,8 @@ void cmd_exec(char **tokenized_input)
 		else
 		{
 			waitpid(child_pid, &status, 0);
-			free(actual_command);
+			/*free(actual_command);*/
+			printf("actual_command free after waitpid");
 		}
 	}
 }
@@ -75,16 +82,26 @@ char *get_location(char *command)
 	int command_length = 0, directory_length = 0;
 	struct stat buffer;
 
+	printf("Starting get location function\n");
+
 	path = _getenv("PATH");
 
 	if (path)
 	{
+		printf("path found\n");
 		path_copy = strdup(path);
 		command_length = strlen(command);
 		path_token = strtok(path_copy, ":");
 
+		if (stat(command, &buffer) == 0)
+		{
+			printf("is command already path?\n");
+			return (command);
+		}
+
 		while (path_token != NULL)
 		{
+			printf("make it to while loop?\n");
 			directory_length = strlen(path_token);
 			file_path = malloc(command_length + directory_length + 2);
 			strcpy(file_path, path_token);
@@ -104,10 +121,11 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		if (stat(command, &buffer) == 0)
+		/*if (stat(command, &buffer) == 0)
 		{
+			printf("Fail here? (if command is already path)");
 			return (command);
-		}
+		}*/
 		return (NULL);
 	}
 	return (NULL);
