@@ -7,24 +7,19 @@
  * Return: Always Void
  */
 
-void cmd_exec(char **tokenized_input)
+void cmd_prep(char **tokenized_input)
 {
 	char *command = NULL, *actual_command = NULL;
-	pid_t child_pid;
-	int status;
-
-	printf("passed tokenized input to cmd_exec");
+	int mallocd = 0;
 
 	if (tokenized_input)
 	{
-		printf("tokenized_input exists in cmd_exec\n");
 		command = tokenized_input[0];
 
 		if (strcmp(command, "exit") == 0)
 		{
 			free(tokenized_input);
 			free(command);
-			printf("free tokenized_input and command if command = exit");
 			exit(EXIT_SUCCESS);
 		}
 
@@ -35,37 +30,20 @@ void cmd_exec(char **tokenized_input)
 		}
 
 		actual_command = get_location(command);
+		if (actual_command == NULL)
+			actual_command = command;
+		else if (actual_command)
+			mallocd = 1;
 
 		if (access(actual_command, X_OK) != 0)
 		{
-			free(actual_command);
-			printf("free actual_command after access failure");
+			if (mallocd == 1)
+				free(actual_command);
 			perror("Error: The file cannot be executed");
 			return;
 		}
 
-		child_pid = fork();
-
-		if (child_pid == -1)
-		{
-			perror("fork");
-		}
-		if (child_pid == 0)
-		{
-			if (execve(actual_command, tokenized_input, NULL) == -1)
-			{
-				/*free(actual_command);*/
-				printf("Fail here?\n");
-				perror("Error:");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			waitpid(child_pid, &status, 0);
-			/*free(actual_command);*/
-			printf("actual_command free after waitpid");
-		}
+		exec_fork(actual_command, tokenized_input, mallocd);
 	}
 }
 
@@ -82,26 +60,22 @@ char *get_location(char *command)
 	int command_length = 0, directory_length = 0;
 	struct stat buffer;
 
-	printf("Starting get location function\n");
-
 	path = _getenv("PATH");
 
 	if (path)
 	{
-		printf("path found\n");
 		path_copy = strdup(path);
 		command_length = strlen(command);
 		path_token = strtok(path_copy, ":");
 
 		if (stat(command, &buffer) == 0)
 		{
-			printf("is command already path?\n");
+			free(path_copy);
 			return (command);
 		}
 
 		while (path_token != NULL)
 		{
-			printf("make it to while loop?\n");
 			directory_length = strlen(path_token);
 			file_path = malloc(command_length + directory_length + 2);
 			strcpy(file_path, path_token);
@@ -121,14 +95,43 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		/*if (stat(command, &buffer) == 0)
-		{
-			printf("Fail here? (if command is already path)");
-			return (command);
-		}*/
 		return (NULL);
 	}
 	return (NULL);
+}
+
+/**
+ * exec_fork - Function that forks and executes command
+ * @command: file path of command to run
+ * @tokenized_input: Tokenized input from stdin
+ * @mallocd: Int variable to check if command needs to be freed
+ *
+ * Return: Always Void
+ */
+
+void exec_fork(char *command, char **tokenized_input, int mallocd)
+{
+	pid_t child_pid;
+	int status;
+
+	child_pid = fork();
+
+	if (child_pid == -1)
+	{
+		perror("fork");
+	}
+	if (child_pid == 0)
+	{
+		if (execve(command, tokenized_input, NULL) == -1)
+		{
+			perror("Error:");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		waitpid(child_pid, &status, 0);
+	}
 }
 
 /**

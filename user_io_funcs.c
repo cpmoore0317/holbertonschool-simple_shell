@@ -15,16 +15,12 @@ char **token_input(void)
 	ssize_t nchars_read = 0;
 	int num_tokens = 0, i;
 
-	printf("called token_input\n");
-
 	nchars_read = getline(&user_input, &bytes_read, stdin);
 	if (nchars_read == -1)
 	{
 		free(user_input);
 		return (NULL);
 	}
-
-	printf("getline success\n");
 
 	user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
 	if (user_input_copy == NULL)
@@ -50,9 +46,7 @@ char **token_input(void)
 		token = strtok(NULL, DELIM);
 	}
 	tokenized_string[i] = NULL;
-	printf("input tokenized\n");
 	free(user_input);
 	free(user_input_copy);
-	printf("user_input, user_input_copy freeing successfully\n");
 	return (tokenized_string);
 }

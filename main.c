@@ -35,8 +35,7 @@ int main(int ac, char **argv, char **env)
 			exit(EXIT_FAILURE);
 		}
 
-		printf("Just before cmd_exec");
-		cmd_exec(tokenized_input);
+		cmd_prep(tokenized_input);
 
 		for (i = 0; tokenized_input[i] != NULL; i++)
 			free(tokenized_input[i]);
