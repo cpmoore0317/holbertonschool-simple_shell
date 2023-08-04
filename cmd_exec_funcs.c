@@ -21,7 +21,7 @@ void cmd_exec(char **tokenized_input)
 		{
 			free(tokenized_input);
 			free(command);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 
 		if (strcmp(command, "env") == 0)
