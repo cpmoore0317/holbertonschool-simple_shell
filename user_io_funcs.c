@@ -19,7 +19,8 @@ char **token_input(void)
 	if (nchars_read == -1)
 	{
 		free(user_input);
-		return (NULL);
+		exit(EXIT_SUCCESS);
+		/*return (NULL);*/
 	}
 
 	user_input_copy = malloc(sizeof(char) * (nchars_read + 1));
