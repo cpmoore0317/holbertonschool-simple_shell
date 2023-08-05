@@ -113,6 +113,7 @@ void exec_fork(char *command, char **tokenized_input, int mallocd)
 {
 	pid_t child_pid;
 	int status;
+	(void) mallocd;
 
 	child_pid = fork();
 
