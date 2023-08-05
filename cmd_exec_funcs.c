@@ -1,7 +1,7 @@
 #include "simple_shell.h"
 
 /**
- * cmd_exec - Function that executes command stored in tokenized input
+ * cmd_prep - Function that executes command stored in tokenized input
  * @tokenized_input: Array of Strings containing user input
  *
  * Return: Always Void
