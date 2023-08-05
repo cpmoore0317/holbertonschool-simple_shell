@@ -39,8 +39,7 @@ void cmd_prep(char **tokenized_input)
 		{
 			if (mallocd == 1)
 				free(actual_command);
-			perror("Error: The file cannot be executed");
-			return;
+			exit(EXIT_F_ACCESS);
 		}
 
 		exec_fork(actual_command, tokenized_input, mallocd);
