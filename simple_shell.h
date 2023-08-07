@@ -28,7 +28,7 @@
 void cmd_prep(char **tokenized_input);
 char **token_input(void);
 char *get_location(char *command);
-int exec_fork(char *command, char **tokenized_input, int mallocd);
+void exec_fork(char *command, char **tokenized_input, int mallocd);
 char *_getenv(const char *name);
 void printenv(void);
 
