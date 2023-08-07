@@ -10,7 +10,7 @@
 void cmd_prep(char **tokenized_input)
 {
 	char *command = NULL, *actual_command = NULL;
-	int mallocd = 0;
+	int mallocd = 0, not_mallocd = 0;
 
 	if (tokenized_input)
 	{
@@ -31,8 +31,11 @@ void cmd_prep(char **tokenized_input)
 
 		actual_command = get_location(command);
 		if (actual_command == NULL)
+		{
 			actual_command = command;
-		else if (actual_command)
+			not_mallocd = 1;
+		}
+		else if (actual_command && not_mallocd == 0)
 			mallocd = 1;
 
 		if (access(actual_command, X_OK) != 0)
@@ -65,14 +68,12 @@ char *get_location(char *command)
 	{
 		path_copy = strdup(path);
 		command_length = strlen(command);
-		path_token = strtok(path_copy, ":");
-
 		if (stat(command, &buffer) == 0)
 		{
 			free(path_copy);
-			return (command);
+			return (NULL);
 		}
-
+		path_token = strtok(path_copy, ":");
 		while (path_token != NULL)
 		{
 			directory_length = strlen(path_token);
@@ -112,7 +113,6 @@ void exec_fork(char *command, char **tokenized_input, int mallocd)
 {
 	pid_t child_pid;
 	int status;
-	(void) mallocd;
 
 	child_pid = fork();
 
@@ -131,6 +131,8 @@ void exec_fork(char *command, char **tokenized_input, int mallocd)
 	else
 	{
 		waitpid(child_pid, &status, 0);
+		if (mallocd == 1)
+			free(command);
 	}
 }
 
