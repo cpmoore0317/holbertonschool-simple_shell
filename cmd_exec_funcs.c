@@ -10,7 +10,7 @@
 void cmd_prep(char **tokenized_input)
 {
 	char *command = NULL, *actual_command = NULL;
-	int mallocd = 0, not_mallocd = 0, status;
+	int mallocd = 0, not_mallocd = 0;
 
 	command = tokenized_input[0];
 
