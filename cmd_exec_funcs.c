@@ -61,6 +61,11 @@ char *get_location(char *command)
 
 	path = _getenv("PATH");
 
+	if (!path || *path == '\0')
+	{
+		exit(127);
+	}
+
 	if (path)
 	{
 		path_copy = strdup(path);
@@ -92,8 +97,7 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		perror("Error");
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	return (NULL);
 }
