@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 /* Exit Status Macros */
 /* EXIT_SUCCESS = 0 */

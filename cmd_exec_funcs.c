@@ -92,8 +92,8 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		perror("Error:");
-		exit(EXIT_SUCCESS);
+		perror();
+		exit(EXIT_FAILURE);
 	}
 	return (NULL);
 }
