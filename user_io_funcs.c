@@ -28,6 +28,12 @@ char **token_input(void)
 	strcpy(user_input_copy, user_input);
 
 	token = strtok(user_input, DELIM);
+	if (token == NULL)
+	{
+		free(user_input);
+		free(user_input_copy);
+		return (NULL);
+	}
 	while (token != NULL)
 	{
 		num_tokens++;

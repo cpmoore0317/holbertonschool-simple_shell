@@ -29,17 +29,15 @@ int main(int ac, char **argv, char **env)
 
 		tokenized_input = token_input();
 
-		if (tokenized_input == NULL)
+		if (tokenized_input != NULL)
+			cmd_prep(tokenized_input);
+
+		if (tokenized_input)
 		{
+			for (i = 0; tokenized_input[i] != NULL; i++)
+				free(tokenized_input[i]);
 			free(tokenized_input);
-			exit(EXIT_FAILURE);
 		}
-
-		cmd_prep(tokenized_input);
-
-		for (i = 0; tokenized_input[i] != NULL; i++)
-			free(tokenized_input[i]);
-		free(tokenized_input);
 
 		tokenized_input = NULL;
 	}
