@@ -10,12 +10,18 @@
 void cmd_prep(char **tokenized_input)
 {
 	char *command = NULL, *actual_command = NULL;
-	int mallocd = 0, not_mallocd = 0;
+	int mallocd = 0, not_mallocd = 0, status;
 
 	command = tokenized_input[0];
 
 	if (strcmp(command, "exit") == 0)
 	{
+		if (!WIFEXITED(status))
+		{
+			free(tokenized_input);
+			free(command);
+			exit(WEXITSTATUS(status));
+		}
 		free(tokenized_input);
 		free(command);
 		exit(EXIT_SUCCESS);
@@ -43,7 +49,7 @@ void cmd_prep(char **tokenized_input)
 		exit(EXIT_F_ACCESS);
 	}
 
-	exec_fork(actual_command, tokenized_input, mallocd);
+	status = exec_fork(actual_command, tokenized_input, mallocd);
 }
 
 /**
@@ -107,7 +113,7 @@ char *get_location(char *command)
  * Return: Always Void
  */
 
-void exec_fork(char *command, char **tokenized_input, int mallocd)
+int exec_fork(char *command, char **tokenized_input, int mallocd)
 {
 	pid_t child_pid;
 	extern char **environ;
@@ -132,7 +138,9 @@ void exec_fork(char *command, char **tokenized_input, int mallocd)
 		waitpid(child_pid, &status, 0);
 		if (mallocd == 1)
 			free(command);
+		return (status);
 	}
+	return (-1);
 }
 
 /**
