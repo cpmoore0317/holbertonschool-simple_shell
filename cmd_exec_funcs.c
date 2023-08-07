@@ -92,7 +92,7 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		perror("Error:");
+		perror("Error");
 		exit(EXIT_FAILURE);
 	}
 	return (NULL);
