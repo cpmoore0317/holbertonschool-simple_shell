@@ -61,11 +61,6 @@ char *get_location(char *command)
 
 	path = _getenv("PATH");
 
-	if (!path || *path == '\0')
-	{
-		exit(127);
-	}
-
 	if (path)
 	{
 		path_copy = strdup(path);
