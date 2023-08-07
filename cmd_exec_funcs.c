@@ -16,6 +16,12 @@ void cmd_prep(char **tokenized_input)
 
 	if (strcmp(command, "exit") == 0)
 	{
+		if (errno)
+		{
+			free(tokenized_input);
+			free(command);
+			exit(errno);
+		}
 		free(tokenized_input);
 		free(command);
 		exit(EXIT_SUCCESS);
