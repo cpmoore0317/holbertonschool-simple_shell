@@ -12,41 +12,38 @@ void cmd_prep(char **tokenized_input)
 	char *command = NULL, *actual_command = NULL;
 	int mallocd = 0, not_mallocd = 0;
 
-	if (tokenized_input)
+	command = tokenized_input[0];
+
+	if (strcmp(command, "exit") == 0)
 	{
-		command = tokenized_input[0];
-
-		if (strcmp(command, "exit") == 0)
-		{
-			free(tokenized_input);
-			free(command);
-			exit(EXIT_SUCCESS);
-		}
-
-		if (strcmp(command, "env") == 0)
-		{
-			printenv();
-			return;
-		}
-
-		actual_command = get_location(command);
-		if (actual_command == NULL)
-		{
-			actual_command = command;
-			not_mallocd = 1;
-		}
-		else if (actual_command && not_mallocd == 0)
-			mallocd = 1;
-
-		if (access(actual_command, X_OK) != 0)
-		{
-			if (mallocd == 1)
-				free(actual_command);
-			exit(EXIT_F_ACCESS);
-		}
-
-		exec_fork(actual_command, tokenized_input, mallocd);
+		free(tokenized_input);
+		free(command);
+		exit(EXIT_SUCCESS);
 	}
+
+	if (strcmp(command, "env") == 0)
+	{
+		printenv();
+		return;
+	}
+
+	actual_command = get_location(command);
+	if (actual_command == NULL)
+	{
+		actual_command = command;
+		not_mallocd = 1;
+	}
+	else if (actual_command && not_mallocd == 0)
+		mallocd = 1;
+
+	if (access(actual_command, X_OK) != 0)
+	{
+		if (mallocd == 1)
+			free(actual_command);
+		exit(EXIT_F_ACCESS);
+	}
+
+	exec_fork(actual_command, tokenized_input, mallocd);
 }
 
 /**
@@ -95,7 +92,8 @@ char *get_location(char *command)
 			}
 		}
 		free(path_copy);
-		return (NULL);
+		perror("Error:");
+		exit(EXIT_SUCCESS);
 	}
 	return (NULL);
 }
@@ -112,6 +110,7 @@ char *get_location(char *command)
 void exec_fork(char *command, char **tokenized_input, int mallocd)
 {
 	pid_t child_pid;
+	extern char **environ;
 	int status;
 
 	child_pid = fork();
@@ -122,7 +121,7 @@ void exec_fork(char *command, char **tokenized_input, int mallocd)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(command, tokenized_input, NULL) == -1)
+		if (execve(command, tokenized_input, environ) == -1)
 		{
 			perror("Error:");
 			exit(EXIT_FAILURE);
