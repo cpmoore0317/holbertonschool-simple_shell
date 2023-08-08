@@ -1,0 +1,48 @@
+.TH BBASH 08/07/2023
+
+.SH NAME
+BBASH \- A simple version of the Linux Shell
+
+.SH SYNOPSIS
+
+.B Command
+.RI [ OPTIONS ]
+.RI [ ARGUMENTS ]
+
+.SH DESCRIPTION
+
+This simple shell replicates a number of features from the Linux Shell. It takes in input, parses the input into tokens, checks the PATH to find a command location, then executes the command. This shell can handle ls, cp, pwd, mv, rm, env, and exit. By the end of this project, some features were left unimplemented due to time constraints. Some exit statuses don't return correctly, and the program fails if the PATH environmental variable is removed or replaced. Finally, this shell supports both interactive and non-interactive modes.
+
+.SH FORMAT
+The following are examples of commands with options that alter/display files and directories.
+.TP
+.B ls
+This prints the current directory.
+
+.TP
+.B ls -l
+This prints the current directory in a detailed format.
+
+.TP
+.B ls -la var/
+This prints a detailed list of the /var/ directory passed as an argument including hidden files.
+
+.TP
+.B env
+This prints the current environment.
+
+.SH ARGUMENTS
+The arguments are files/directories that are manipulated or printed by commands.
+
+.SH RETURN VALUE
+BBASH returns EXIT_SUCCESS if run successfully, and an error code when it fails.
+
+.SH EXAMPLE
+The following code is an example of how to use BBASH:
+.TP
+BBASH$ ls
+README.md main.c main.h cmd_exec.c bbash.c
+
+.SH AUTHORS
+
+Chris Stephens and Parker Moore
